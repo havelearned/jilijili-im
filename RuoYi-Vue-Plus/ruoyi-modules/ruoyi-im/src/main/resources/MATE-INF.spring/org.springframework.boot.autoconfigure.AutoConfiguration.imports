@@ -1,0 +1,4 @@
+org.dromara.im.config.ImOAuthGithubConfiguration
+org.dromara.im.config.ImOAuthGiteeConfiguration
+org.dromara.im.config.ImFriendPropertiesConfiguration
+org.dromara.im.config.ImAiConfiguration
