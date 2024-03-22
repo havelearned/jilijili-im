@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dromara.im.mapper.AppboxApplicationMapper">
+
+    <select id="selectVoByAppId" resultType="java.lang.Long">
+        select ac.user_id
+        from appbox_fixed_app_user_config ac
+                 join appbox_application ap on ac.app_id = ap.id
+        where ap.id = #{appId}
+    </select>
+    <select id="queryAppByUserId"  resultType="org.dromara.im.domain.vo.AppboxApplicationVo">
+        select aa.id, aa.parent_id, aa.config_id, aa.app_name,aa. icon_url, aa.cover, aa.popularity, aa.pv,aa. uv, aa.channel_status,aa. remark,aa. create_by, aa.create_time
+        from appbos_app_user aau
+                 inner join appbox_application aa on aau.app_id = aa.id
+        where aau.user_id = #{id} and aa.channel_status = 1;
+    </select>
+
+    <select id="getTreeInfo" parameterType="java.lang.Long"  resultType="org.dromara.im.domain.vo.AppboxApplicationVo">
+        select aa.id, parent_id, config_id, app_name, icon_url, cover, popularity,cover, pv, uv, channel_status, remark, create_by, create_time
+        from appbox_application aa  where  aa.id = #{id}
+        union
+        select aa.id, parent_id, config_id, app_name, icon_url, cover, popularity,cover, pv, uv, channel_status, remark, create_by, create_time
+        from appbox_application aa  where  aa.parent_id = #{id}
+    </select>
+
+    <select id="getUsersUnderTheApplicationV2" resultType="org.dromara.system.domain.vo.SysUserVo">
+        select * from appbos_app_user aau inner join sys_user su on su.user_id = aau.user_id
+        ${ew.customSqlSegment}
+    </select>
+</mapper>
